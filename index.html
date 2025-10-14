@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Map of Condominiums Across Malaysia</title>
+
+  <!-- Vega libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+
+  <!-- CSS file -->
+  <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+  <style>
+  /* Ensure SVG text can access the font */
+  text, tspan {
+    font-family: 'Source Sans 3', sans-serif !important;
+  }
+  </style>
+
+
+</head>
+<body>
+  <div class="article-container">
+    <h1>Food Costs and Inflation in Malaysia</h1>
+
+    <div class="graph" id="bar_chart"></div>
+
+    <div class="graph" id="choropleth_map"></div>
+  </div>
+
+  <!-- JS -->
+  <script src="js/charts.js"></script>
+</body>
+</html>
