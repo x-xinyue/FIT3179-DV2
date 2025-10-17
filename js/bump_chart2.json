@@ -1,0 +1,62 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Stacked bar chart showing inflation by category (highlighting F&B) across years.",
+  "data": {
+    "url": "https://raw.githubusercontent.com/x-xinyue/FIT3179-DV2/refs/heads/main/data/inflation_division.csv"
+  },
+  "width": 500,
+  "height": 350,
+
+  "transform": [
+    {"calculate": "toDate(datum.date)", "as": "Date"},
+    {"calculate": "year(datum.Date)", "as": "Year"},
+    {"filter": "datum.Year >= 2019 && datum.Year <= 2025"},
+    {
+      "aggregate": [
+        {"op": "mean", "field": "yoy_inflation", "as": "avg_inflation"}
+      ],
+      "groupby": ["desc_en", "Year"]
+    },
+    {
+      "calculate": "datum.desc_en == 'Food & Beverages' ? 'F&B' : 'Other'",
+      "as": "Category_Group"
+    }
+  ],
+
+  "mark": {"type": "bar"},
+
+  "encoding": {
+    "x": {
+      "field": "Year",
+      "type": "ordinal",
+      "title": "Year",
+      "axis": {"labelAngle": 0, "labelFontSize": 12}
+    },
+    "y": {
+      "aggregate": "sum",
+      "field": "avg_inflation",
+      "type": "quantitative",
+      "title": "Average YoY Inflation (%)"
+    },
+    "color": {
+      "field": "Category_Group",
+      "type": "nominal",
+      "scale": {
+        "domain": ["F&B", "Other"],
+        "range": ["#e4572e", "#d3d3d3"]
+      },
+      "title": null
+    },
+    "tooltip": [
+      {"field": "desc_en", "title": "Category"},
+      {"field": "Year", "title": "Year"},
+      {"field": "avg_inflation", "type": "quantitative", "format": ".2f", "title": "Average YoY Inflation (%)"}
+    ]
+  },
+
+  "config": {
+    "view": {"stroke": null},
+    "axis": {"labelFontSize": 12, "titleFontSize": 13},
+    "legend": {"orient": "bottom"}
+  }
+}

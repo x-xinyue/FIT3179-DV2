@@ -1,36 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Map of Condominiums Across Malaysia</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smooth Section Design</title>
   <!-- Vega libraries -->
   <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
 
-  <!-- CSS file -->
-  <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-  <style>
-  /* Ensure SVG text can access the font */
-  text, tspan {
-    font-family: 'Source Sans 3', sans-serif !important;
+
+<style>
+  html {
+    scroll-behavior: smooth;
   }
-  </style>
+
+  body {
+    margin: 0;
+    font-family: 'Source Sans 3', sans-serif;
+    background: #f8fafb;
+    color: #222;
+    position: relative;
+  }
+
+  /* --- Header --- */
+  header {
+    background: #e6f2ff;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  header h1 {
+    font-family: 'Merriweather', serif;
+    font-size: 2.5em;
+    margin: 0;
+  }
+
+  /* --- Vertical Nav (circle buttons) --- */
+  .side-nav {
+    position: fixed;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    z-index: 1000;
+  }
+
+  .side-nav a {
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ccc;
+    transition: all 0.3s ease;
+  }
+
+  .side-nav a:hover {
+    background: #4a90e2;
+    transform: scale(1.2);
+  }
+
+  .side-nav a.active {
+    background: #4a90e2;
+  }
+
+  /* --- Main Content --- */
+  main {
+    padding: 60px 20px;
+  }
+
+/* --- Section Layout --- */
+  .section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto 80px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    flex-wrap: wrap; /* ensures responsiveness */
+  }
+
+  .section .text {
+    flex: 1 1 45%;
+  }
+
+  .section .graph {
+    flex: 1 1 45%;
+    max-width: 100%;
+    overflow: hidden; /* prevents chart overflow */
+  }
+
+  .vega-embed {
+    width: 100% !important;
+  }
 
 
+  .section .graph img {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  /* Layout direction control */
+  .layout-left {
+    flex-direction: row;
+  }
+
+  .layout-right {
+    flex-direction: row-reverse;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 800px) {
+    .section {
+      flex-direction: column;
+      text-align: center;
+    }
+    .section .text, .section .graph {
+      flex: 1 1 100%;
+    }
+  }
+
+
+  h2 {
+    font-family: 'Merriweather', serif;
+    font-size: 1.8em;
+    margin-top: 0;
+  }
+
+  p {
+    line-height: 1.6;
+    color: #333;
+  }
+
+  /* --- Footer --- */
+  footer {
+    background: #eaf7ec;
+    height: 35vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  footer h3 {
+    font-weight: 500;
+    color: #444;
+  }
+
+  footer p {
+    font-size: 0.9em;
+    color: #666;
+  }
+</style>
 </head>
 <body>
-  <div class="article-container">
-    <h1>Food Costs and Inflation in Malaysia</h1>
 
-    <div class="graph" id="bar_chart"></div>
+  <header>
+    <div>
+      <h1>Food Costs and Inflation in Malaysia</h1>
+      <p>Exploring trends, comparisons, and insights</p>
+    </div>
+  </header>
 
-    <div class="graph" id="choropleth_map"></div>
+  <!-- Vertical Circle Navigation -->
+  <div class="side-nav">
+    <a href="#global" id="nav-global"></a>
+    <a href="#malaysia" id="nav-malaysia"></a>
+    <a href="#inflation_group" id="nav-inflation"></a>
+    <a href="#prices" id="nav-prices"></a>
+    <a href="#final" id="nav-final"></a>
   </div>
 
+
+  <main>
+    <div class="section layout-left" id="global">
+      <div class="graph" id="line_chart"></div>
+      <div class="text">
+        <h2>How is Malaysia doing compared to others?</h2>
+        <p>Inflation in Malaysia has generally remained stable compared to its regional neighours. Between 2019 and 2023, Malaysia's inflation rose sharply in 2021 following reopening of borders and global supply disruptionsbut stayed below the levels recorded in countries such as Thailand and the Philippines. This suggests that domestic policies like price controls helped cushion households from the full impact of imported inflation.</p>
+      </div>
+    </div>
+      
+    </div>
+
+    <div class="section" id="malaysia">
+      <h2>Where Does Inflation Hit Malaysians the Hardest?</h2>
+      <p>Food inflationary pressures are not evenly distributed across Malaysia. Urbanised states such as Selangor and Kuala Lumpur experienced higher price increases, while northern states like Perlis and Kelantan remained relatively stable. This spatial pattern reflects differences in income levels, consumption patterns, and exposure to imported goods.</p>
+      <div class="graph" id="choropleth_map"></div>
+    </div>
+
+    <div class="section layout-right" id="inflation_group">
+      <div class="graph" id="streamgraph"></div>
+      <div class="text">
+        <h2>What’s Driving Malaysia’s Inflation?</h2>
+        <p>Food and non-alcoholic beverages remain the most persistent contributors to inflation. Transportation costs surged in 2022 due to fuel price spikes, while housing and utilities rose more gradually. The shifting bands highlight how Malaysia’s inflation drivers evolved from supply chain shocks to domestic consumption recovery after the pandemic.</p>
+      </div>
+   
+    </div>
+
+     
+    <div class="section layout-right" id="prices">
+      <div class="graph" id="bump_chart"></div>
+      <div class="text">
+        <h2>How Affordable Are Basic Foods in Malaysia?</h2>
+        <p>The Malaysian government regulates several essential food items to stabilise living costs. Despite global commodity price shocks, items such as sugar and flour have shown limited price increases. However, rice prices continues to increase despite heavy regularization. Let's investigate further.</p>
+      </div>
+    </div>
+
+
+    <div class="section layout-left" id="final"> 
+      <div class="graph" id="slope_chart"></div>
+      <div class="text"><h2>Can Malaysia Produce Enough to Feed Itself?</h2>
+      <p>Domestic food production plays a key role in price stability. Malaysia’s poultry production recovered strongly post-pandemic, but rice output has stagnated due to land constraints and weather variability. Strengthening local production capacity could reduce future dependence on imports and mitigate food inflation risks.</p></div>
+      
+    </div>
+    
+  </main>
+
+  <footer>
+    <h3>Data Visualisation Project by Chia Chia</h3>
+    <p>2025 • Using Vega-Lite, HTML, CSS, JS</p>
+  </footer>
+
+  <!-- Optional JS: highlight current section -->
+  <script>
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.side-nav a');
+
+    window.addEventListener('scroll', () => {
+      let current = "";
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 200;
+        if (pageYOffset >= sectionTop) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === "#" + current) {
+          link.classList.add("active");
+        }
+      });
+    });
+  
+  </script>
   <!-- JS -->
   <script src="js/charts.js"></script>
 </body>

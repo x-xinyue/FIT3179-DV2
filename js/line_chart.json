@@ -1,0 +1,97 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Line chart comparing Malaysia's inflation with ASEAN neighbours, 2019–2023",
+  "data": {
+    "url": "https://raw.githubusercontent.com/x-xinyue/FIT3179-Homework-Week-10/refs/heads/main/data/global_inflation.csv"
+  },
+  "config": {
+    "view": {"stroke": null},
+    "title": {"font": "Arial", "fontSize": 16, "fontWeight": "bold", "color": "#333"},
+    "axis": {
+      "domain": false,
+      "labelFont": "Arial",
+      "labelFontSize": 14,
+      "labelFontWeight": "bold",
+      "title": null,
+      "labelColor": "#333"
+    },
+    "legend": {
+      "title": null,
+      "labelFont": "Arial",
+      "labelFontSize": 14,
+      "labelFontWeight": "bold",
+      "labelColor": "#333"
+    }
+  },
+  "width": 500,
+  "height": 300,
+  "title": {"text": "Malaysia's Inflation vs ASEAN Neighbours"},
+  "transform": [
+    {
+      "filter": {
+        "field": "Country Name",
+        "oneOf": ["Malaysia", "Singapore", "Thailand", "Indonesia", "Philippines"]
+      }
+    },
+    {
+      "fold": ["2019", "2020", "2021", "2022", "2023", "2024"],
+      "as": ["Year", "Inflation"]
+    },
+    {"calculate": "toNumber(datum.Year)", "as": "YearNum"},
+    {
+      "calculate": "datum['Country Name'] == 'Malaysia' ? 'Malaysia' : 'Others'",
+      "as": "Highlight"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "point": true
+      },
+      "encoding": {
+        "x": {"field": "YearNum", "type": "ordinal", "title": "Year"},
+        "y": {
+          "field": "Inflation",
+          "type": "quantitative",
+          "title": "Inflation (%)"
+        },
+        "color": {
+          "field": "Country Name",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Malaysia", "Singapore", "Thailand", "Indonesia", "Philippines"],
+            "range": ["#1f77b4", "#ff7f0e", "#2ca02c", "#9467bd", "#d62728"]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {"field": "Country Name", "type": "nominal"},
+          {"field": "YearNum", "type": "ordinal"},
+          {"field": "Inflation", "type": "quantitative", "format": ".2f", "title": "Inflation (%)"}
+        ],
+        "strokeWidth": {
+          "condition": {"test": "datum['Country Name'] == 'Malaysia'", "value": 4},
+          "value": 2
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 5,
+        "font": "Arial",
+        "fontSize": 13,
+        "fontWeight": "bold"
+      },
+      "transform": [{"filter": "datum.Year == '2023'"}],
+      "encoding": {
+        "x": {"field": "YearNum", "type": "ordinal"},
+        "y": {"field": "Inflation", "type": "quantitative"},
+        "text": {"field": "Country Name"},
+        "color": {"field": "Country Name", "type": "nominal"}
+      }
+    }
+  ]
+}
