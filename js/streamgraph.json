@@ -1,0 +1,93 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Streamgraph of inflation categories over time with interactive state filter (2019–2023).",
+  "data": {
+    "url": "https://raw.githubusercontent.com/x-xinyue/FIT3179-DV2/refs/heads/main/data/inflation_division.csv"
+  },
+  "width": 500,
+  "height": 400,
+
+  "params": [
+    {
+      "name": "selected_state",
+      "value": "Johor",
+      "bind": {
+        "input": "select",
+        "options": [
+          "Johor",
+          "Kedah",
+          "Kelantan",
+          "Melaka",
+          "Negeri Sembilan",
+          "Pahang",
+          "Perak",
+          "Perlis",
+          "Pulau Pinang",
+          "Sabah",
+          "Sarawak",
+          "Selangor",
+          "Terengganu",
+          "Kuala Lumpur",
+          "Labuan",
+          "Putrajaya"
+        ],
+        "name": "Select state: "
+      }
+    }
+  ],
+
+    "transform": [
+    {"filter": "datum.yoy_inflation != null"},
+    {"calculate": "toDate(datum.date)", "as": "Date"},
+    {"calculate": "year(datum.Date)", "as": "Year"},
+{"filter": "datum.Year >= 2019 && datum.Year <= 2025"},
+    {"filter": "datum.state == selected_state"},
+    {
+        "aggregate": [
+        {"op": "mean", "field": "yoy_inflation", "as": "avg_inflation"}
+        ],
+        "groupby": ["desc_en", "state", "Year"]
+    }
+    ],
+
+  "mark": {
+    "type": "area",
+    "interpolate": "basis",
+    "line": false
+  },
+
+  "encoding": {
+    "x": {
+  "field": "Year",
+  "type": "ordinal",
+  "title": "Year",
+  "axis": {
+    "labelAngle": 0,
+    "labelFontSize": 12
+  }
+},
+    "y": {
+      "field": "avg_inflation",
+      "type": "quantitative",
+      "stack": "center",
+      "title": "Average YoY Inflation (%)"
+    },
+    "color": {
+      "field": "desc_en",
+      "type": "nominal",
+      "title": "Category",
+      "scale": {"scheme": "category20"}
+    },
+    "tooltip": [
+      {"field": "desc_en", "type": "nominal", "title": "Category"},
+      {"field": "Year", "type": "temporal", "title": "Year"},
+      {"field": "avg_inflation", "type": "quantitative", "title": "Average YoY Inflation (%)", "format": ".2f"}
+    ]
+  },
+
+  "config": {
+    "view": {"stroke": null},
+    "axis": {"labelFontSize": 12, "titleFontSize": 13},
+    "legend": {"orient": "bottom", "title": null, "labelFontSize": 11}
+  }
+}
