@@ -1,0 +1,97 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Vertical bar chart of selected food production in Malaysia (in tonnes) with change labels",
+  "width": "container",
+  "height": 450,
+  "data": {
+    "url": "https://raw.githubusercontent.com/x-xinyue/FIT3179-DV2/refs/heads/main/data/FAOSTAT_data_en_10-17-2025.csv"
+  },
+  "params": [
+    {
+      "name": "selected_year",
+      "value": 2022,
+      "bind": {
+        "input": "select",
+        "options": [2022, 2023],
+        "name": "Select Year: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "filter": "datum['Item Group'] == 'Rice' || datum['Item Group'] == 'Chicken' || datum['Item Group'] == 'Eggs'"
+    },
+    {
+      "window": [
+        {"op": "lag", "field": "Value", "as": "prev_year_value"}
+      ],
+      "groupby": ["Item Group"]
+    },
+    {
+      "calculate": "datum.Year == 2022 ? null : datum.Value - datum.prev_year_value",
+      "as": "change"
+    },
+    {
+      "aggregate": [
+        {"op": "sum", "field": "Value", "as": "Value"},
+        {"op": "sum", "field": "change", "as": "change"}
+      ],
+      "groupby": ["Item Group", "Year"]
+    },
+    {
+      "filter": "datum.Year == selected_year"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "bar", "cornerRadiusEnd": 3},
+      "encoding": {
+        "x": {
+          "field": "Item Group",
+          "type": "nominal",
+          "axis": {"labelFontSize": 12, "labelAngle": -0, "labelFontWeight": "bold", "title": null, "ticks": false}
+        },
+        "y": {
+          "field": "Value",
+          "type": "quantitative",
+          "title": "Production (tonnes)",
+          "scale": {"domain": [0, 2500000]},
+          "axis": {"labelFontSize": 12, "labelFontWeight": "bold", "titleFontSize": 14, "titleFontWeight": "bold", "titlePadding": 15, "ticks": false, "domain": false }
+        },
+        "color": {
+          "field": "Item Group",
+          "type": "nominal",
+          "legend": null,
+          "scale": {"domain": ["Rice", "Chicken", "Eggs"], "range": ["#76451d", "#ffa600", "#de5a79"]}
+        },
+        "tooltip": [
+          {"field": "Item Group", "type": "nominal", "title": "Food Category"},
+          {"field": "Year", "type": "ordinal"},
+          {"field": "Value", "type": "quantitative", "format": ",", "title": "Production (tonnes)"},
+          {"field": "change", "type": "quantitative", "format": "+", "title": "Yearly Change"}
+        ]
+      }
+    },
+    {
+      "transform": [
+        {"filter": "datum.change != 0"},
+        {
+          "calculate": "datum.change > 0 ? '+' + format(datum.change, ',') + ' ↑' : (datum.change < 0 ? format(datum.change, ',') + ' ↓' : '')",
+          "as": "change_label"
+        }
+      ],
+      "mark": {"type": "text", "dy": -5, "fontWeight": "bold"},
+      "encoding": {
+        "x": {"field": "Item Group", "type": "nominal"},
+        "y": {"field": "Value", "type": "quantitative"},
+        "text": {"field": "change_label", "type": "nominal"},
+        "color": {"value": "#333"}
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": null},
+    "axis": {"labelFontSize": 13, "labelFontWeight": "bold", "titleFontSize": 13, "titleFontWeight": "bold", "labelPadding": 15, "labelColor": "#333", "titleColor": "#333"},
+    "legend": {"titleFontSize": 15, "titleColor": "#333", "labelFontSize": 13, "labelColor": "#333"}
+  }
+}

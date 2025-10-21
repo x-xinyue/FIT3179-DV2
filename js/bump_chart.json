@@ -3,53 +3,75 @@
   "description": "Bump chart showing rank of food categories driving inflation (2022–2025).",
   "data": {
     "values": [
-      {"year": 2022, "category": "Chicken", "price": 13.7480329238, "rank": 4},
-      {"year": 2022, "category": "Rice", "price": 22.6870814678, "rank": 5},
-      {"year": 2022, "category": "Sugar", "price": 2.8944134759, "rank": 1},
-      {"year": 2022, "category": "Oils and Fats", "price": 23.622774468, "rank": 6},
-      {"year": 2022, "category": "Eggs", "price": 7.17805676, "rank": 3},
-      {"year": 2022, "category": "Flour", "price": 3.0630313251, "rank": 2},
+      {"year": 2022, "category": "Chicken", "price": 13.748, "rank": 4},
+      {"year": 2022, "category": "Rice", "price": 22.687, "rank": 5},
+      {"year": 2022, "category": "Sugar", "price": 2.894, "rank": 1},
+      {"year": 2022, "category": "Oils and Fats", "price": 23.623, "rank": 6},
+      {"year": 2022, "category": "Eggs", "price": 7.178, "rank": 3},
+      {"year": 2022, "category": "Flour", "price": 3.063, "rank": 2},
 
-      {"year": 2023, "category": "Chicken", "price": 13.8076077235, "rank": 4},
-      {"year": 2023, "category": "Rice", "price": 23.1797453247, "rank": 6},
-      {"year": 2023, "category": "Sugar", "price": 2.9891248935, "rank": 1},
-      {"year": 2023, "category": "Oils and Fats", "price": 22.2371564992, "rank": 5},
-      {"year": 2023, "category": "Eggs", "price": 7.1816369071, "rank": 3},
-      {"year": 2023, "category": "Flour", "price": 3.2956812878, "rank": 2},
+      {"year": 2023, "category": "Chicken", "price": 13.808, "rank": 4},
+      {"year": 2023, "category": "Rice", "price": 23.180, "rank": 6},
+      {"year": 2023, "category": "Sugar", "price": 2.989, "rank": 1},
+      {"year": 2023, "category": "Oils and Fats", "price": 22.237, "rank": 5},
+      {"year": 2023, "category": "Eggs", "price": 7.182, "rank": 3},
+      {"year": 2023, "category": "Flour", "price": 3.296, "rank": 2},
 
-      {"year": 2024, "category": "Chicken", "price": 13.4998798118, "rank": 4},
-      {"year": 2024, "category": "Rice", "price": 29.1064832144, "rank": 6},
-      {"year": 2024, "category": "Sugar", "price": 3.0874135816, "rank": 1},
-      {"year": 2024, "category": "Oils and Fats", "price": 21.2931446308, "rank": 5},
-      {"year": 2024, "category": "Eggs", "price": 7.3999593035, "rank": 3},
-      {"year": 2024, "category": "Flour", "price": 3.3273093811, "rank": 2},
+      {"year": 2024, "category": "Chicken", "price": 13.500, "rank": 4},
+      {"year": 2024, "category": "Rice", "price": 29.106, "rank": 6},
+      {"year": 2024, "category": "Sugar", "price": 3.087, "rank": 1},
+      {"year": 2024, "category": "Oils and Fats", "price": 21.293, "rank": 5},
+      {"year": 2024, "category": "Eggs", "price": 7.400, "rank": 3},
+      {"year": 2024, "category": "Flour", "price": 3.327, "rank": 2},
 
-      {"year": 2025, "category": "Chicken", "price": 12.81792209, "rank": 4},
-      {"year": 2025, "category": "Rice", "price": 28.8452652472, "rank": 6},
-      {"year": 2025, "category": "Sugar", "price": 3.0635132377, "rank": 1},
-      {"year": 2025, "category": "Oils and Fats", "price": 21.1874649964, "rank": 5},
-      {"year": 2025, "category": "Eggs", "price": 8.440008971, "rank": 3},
-      {"year": 2025, "category": "Flour", "price": 3.3904681301, "rank": 2}
+      {"year": 2025, "category": "Chicken", "price": 12.818, "rank": 4},
+      {"year": 2025, "category": "Rice", "price": 28.845, "rank": 6},
+      {"year": 2025, "category": "Sugar", "price": 3.064, "rank": 1},
+      {"year": 2025, "category": "Oils and Fats", "price": 21.187, "rank": 5},
+      {"year": 2025, "category": "Eggs", "price": 8.440, "rank": 3},
+      {"year": 2025, "category": "Flour", "price": 3.390, "rank": 2}
     ]
   },
-  "width": 550,
+
+  "width": "container",
   "height": 350,
+
+  "encoding": {
+    "color": {
+      "field": "category",
+      "type": "nominal",
+      "title": "Food Category",
+      "sort": ["Sugar", "Flour", "Eggs", "Chicken", "Oils and Fats", "Rice"],
+      "legend": {"orient": "right"},
+        "scale": {
+    "range": [
+      "#2c4875",  
+      "#8a508f",   
+      "#de5a79",   
+      "#ffa600",   
+      "#ec8a3a",  
+      "#76451d"   
+    ]
+  }
+    }
+  },
+
   "layer": [
     {
-      "mark": {"type": "line", "strokeWidth": 5, "interpolate": "linear"},
+      "mark": {"type": "line", "strokeWidth": 5, "interpolate": "linear", "opacity": 0.85},
       "encoding": {
         "x": {
           "field": "year",
           "type": "ordinal",
-          "title": "Year",
           "axis": {
+            "title": null,
+            "labelFontSize": 13,
+            "labelFontWeight": "bold",
             "labelAngle": 0,
-            "labelFontSize": 12,
-            "titleFontSize": 13,
             "domain": false,
             "ticks": false,
             "grid": false,
-            "offset": 10
+            "offset": 25
           }
         },
         "y": {
@@ -59,44 +81,51 @@
           "scale": {"domain": [6, 1]},
           "axis": null
         },
-        "color": {
-          "field": "category",
-          "type": "nominal",
-          "title": "Food Category",
-          "legend": {"orient": "right"}
-        },
         "detail": {"field": "category"}
       }
     },
     {
-      "mark": {"type": "point", "filled": true, "size": 500},
+      "mark": {"type": "point", "filled": true, "size": 500, "opacity": 0.9},
       "encoding": {
         "x": {"field": "year", "type": "ordinal"},
         "y": {"field": "rank", "type": "quantitative"},
-        "color": {"field": "category"},
         "tooltip": [
           {"field": "year", "title": "Year"},
-          {"field": "category", "title": "Category"},
+          {"field": "category", "title": "Food Category"},
           {"field": "price", "title": "Price (RM)", "format": ".2f"},
           {"field": "rank", "title": "Rank"}
         ]
       }
     },
     {
-      "mark": {"type": "text", "dy": 0, "fontSize": 11, "fontWeight": "bold", "color": "white"},
+      "mark": {
+        "type": "text",
+        "dy": 0,
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "color": "white"
+      },
       "encoding": {
         "x": {"field": "year", "type": "ordinal"},
         "y": {"field": "rank", "type": "quantitative"},
-        "text": {"field": "rank"}
+        "text": {"field": "rank"},
+        "color": {"value": "white"}
       }
     }
   ],
+
   "config": {
     "view": {"stroke": null},
-    "axisX": {"labelPadding": 20},
-    "legend": {
-      "labelFontSize": 11,
-      "titleFontSize": 12
-    }
+    "axis": {
+      "labelFontSize": 13,
+      "titleFontSize": 13,
+      "labelPadding": 15,
+      "labelColor": "#333",
+      "titleColor": "#333"
+    },
+    "legend": {"titleFontSize": 15,
+      "titleColor": "#333",
+      "labelFontSize": 13,
+      "labelColor": "#333"}
   }
 }

@@ -5,14 +5,7 @@
     "url": "https://raw.githubusercontent.com/x-xinyue/FIT3179-DV2/refs/heads/main/data/merged_inflation.csv"
   },
   "width": "container",
-  "height": 500,
-  "title": {
-    "text": "Malaysia’s Average Year on Year (YoY) Inflation (%) by Category (2019-Aug 2025)",
-    "font": "Arial",
-    "fontSize": 16,
-    "fontWeight": "bold",
-    "color": "#333"
-  },
+  "height": 550,
 
   "params": [
     {
@@ -62,7 +55,11 @@
   "mark": {
     "type": "area",
     "interpolate": "basis",
-    "line": false
+    "line": false,
+      "line": true,          
+  "stroke": "#fff",    
+  "strokeWidth": 1.5,    
+    "opacity": 0.85
   },
 
   "encoding": {
@@ -128,7 +125,7 @@
       {
         "field": "avg_inflation",
         "type": "quantitative",
-        "title": "Average YoY Inflation (%)",
+        "title": "YoY Inflation (%)",
         "format": ".2f"
       }
     ]
@@ -150,7 +147,7 @@
       "title": null,
       "titleFontSize": 15,
       "titleColor": "#333",
-      "labelFontSize": 13,
+      "labelFontSize": 12,
       "labelColor": "#333",
       "columns": 2,
       "symbolSize": 100,

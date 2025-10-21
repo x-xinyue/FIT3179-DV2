@@ -6,13 +6,6 @@
   },
   "width": "container",
   "height": 400,
-  "title": {
-    "text": "Top 5 YoY Inflation (%) Contributing Categories in Malaysia (2023-2025)",
-    "font": "Arial",
-    "fontSize": 16,
-    "fontWeight": "bold",
-    "color": "#333"
-  },
   "params": [
     {
       "name": "selected_state",
@@ -24,7 +17,7 @@
           "Pahang", "Perak", "Perlis", "Pulau Pinang", "Sabah", "Sarawak",
           "Selangor", "Terengganu", "Kuala Lumpur", "Labuan", "Putrajaya"
         ],
-        "name": "Select geography: ",
+        "name": "Select state: ",
         "labelColor": "#333"
       }
     }
@@ -51,7 +44,7 @@
     {"filter": "datum.rank <= 5"}
   ],
 
-  "mark": {"type": "bar", "opacity": 0.85},
+  "mark": {"type": "bar", "opacity": 0.85, "stroke": "#ffffff", "strokeWidth": 0.1},
 
   "encoding": {
     "x": {
@@ -83,7 +76,7 @@
     "color": {
       "field": "desc_en",
       "type": "nominal",
-      "title": "Category",
+      "title": "Inflation Category",
       "scale": {
         "range": [
           "#58508d","#8a508f","#bc5090",
@@ -96,7 +89,7 @@
         "direction": "vertical",
         "columnPadding": 60,
         "title": null,
-        "labelFontSize": 13,
+        "labelFontSize": 12,
         "labelColor": "#333",
         "columns": 2,
         "symbolSize": 100,
@@ -106,7 +99,7 @@
     "tooltip": [
       {"field": "desc_en", "type": "nominal", "title": "Category"},
       {"field": "Year", "type": "ordinal", "title": "Year"},
-      {"field": "avg_inflation", "type": "quantitative", "title": "Avg YoY Inflation (%)", "format": ".2f"}
+      {"field": "avg_inflation", "type": "quantitative", "title": "YoY Inflation (%)", "format": ".2f"}
     ]
   },
 

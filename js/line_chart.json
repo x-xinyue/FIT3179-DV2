@@ -28,8 +28,7 @@
     }
   },
   "width": "container",
-  "height": 300,
-  "title": {"text": "Malaysia's Inflation (%) vs. Neighbouring Countries"},
+  "height": 400,
   "transform": [
     {
       "filter": {

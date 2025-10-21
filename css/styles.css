@@ -1,34 +1,122 @@
-.article-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  line-height: 1.6;
-  font-family: 'Arial', sans-serif;
+/* --- General --- */
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: 'Source Sans 3', sans-serif;
+  background: #f8fafb;
+  color: #222;
+  position: relative;
+}
+
+/* --- Header --- */
+header {
+  background: #2c4875;
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
 }
-
-h1 {
-  font-size: 2.5em;
-  margin-bottom: 20px;
-  font-weight: 600;
+header h1 {
   font-family: 'Merriweather', serif;
+  color: #f8fafb;
+  font-size: 2.5em;
+  margin: 0;
 }
+header p { color: #f8fafb; line-height: 1.6; }
 
-h2 {
-  margin-top: 40px;
-  font-size: 1.6em;
-  font-weight: 600;
+/* --- Side Navigation --- */
+.side-nav {
+  position: fixed;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 1000;
 }
-
-p {
-  margin-bottom: 20px;
-  font-size: 1.05em;
-  color: #333;
-}
-
-.graph {
+.side-nav a {
   display: block;
-  margin: 0 auto 40px auto;
-  width: 800px;
-  max-width: 100%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ccc;
+  transition: all 0.3s ease;
 }
+.side-nav a:hover { background: #4a90e2; transform: scale(1.2); }
+.side-nav a.active { background: #2c4875; }
+
+/* --- Main Content --- */
+main { padding: 60px 20px; }
+
+/* --- Section --- */
+.section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto 80px auto;
+  background: #fff;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+.section .text { flex: 1 1 30%; }
+.section .graph { flex: 1 1 50%; min-width:0; max-width:100%; }
+
+/* Layout directions */
+.layout-left { flex-direction: row; }
+.layout-right { flex-direction: row-reverse; }
+
+/* Graph wrapper & titles */
+.graph-wrapper { flex: 1 1 50%; display: flex; flex-direction: column; align-items: center; }
+.graph-title { font-family: 'Arial', sans-serif; font-size: 16px; font-weight: bold; color: #333; text-align: center; margin-bottom: 5px; }
+.graph { width: 100%; min-height: 350px; }
+.layout-row { display: flex; align-items: center; justify-content: space-between; gap: 50px; }
+.text { flex: 1 1 45%; }
+
+/* Vega embeds */
+.vega-embed { width: 100% !important; }
+.vega-bind, .vega-bind label, .vega-bind input, .vega-bind select { font-family: 'Source Sans 3', sans-serif !important; font-size: 14px !important; color: #333 !important; }
+.vega-bind input[type="range"] { accent-color: #2c4875; height: 6px; cursor: pointer; margin-right: 10px; }
+#streamgraph .vega-bind, #stacked_bar_graph .vega-bind { display: flex; gap: 20px; }
+
+/* Malaysia map */
+#malaysia { flex-direction: column; align-items: center; text-align: center; padding: 40px; }
+#malaysia h2 { margin-bottom: 0; }
+#malaysia .map-annotation { position: absolute; top: 55%; left: 50%; transform: translate(-85%, -100%); background: rgba(255,255,255,0.85); padding: 10px; border-radius: 6px; max-width: 300px; line-height: 1.3; color: #333; }
+
+/* Typography */
+h2 { font-family: 'Merriweather', serif; font-size: 1.8em; margin-top: 0; }
+p { font-family: 'Source Sans 3', sans-serif; line-height: 1.6; color: #333; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .layout-row { flex-direction: column; text-align: center; }
+  .text, .graph-wrapper { width: 100%; }
+}
+
+/* Filter */
+.vega-bind label {
+  font-weight: bold !important;  
+  font-size: 14px;               
+  color: #333 !important;      
+}
+
+/* --- Footer --- */
+footer {
+  background: #2c4875;
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+footer h3 { margin-bottom: 5px; font-weight: 350; color: #f8fafb; }
+footer p { margin: 4px 0; color: #f8fafb; }
+footer a { color: #99d1ff; text-decoration: none; transition: color 0.2s ease; }
+footer a:hover { color: #cbe7ff; text-decoration: underline; }

@@ -1,9 +1,9 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": { "text": "Food & Beverages Price Inflation Year on Year (YoY) across Malaysia" },
+  "title": { "text": "Food & Beverages YoY Price Inflation (%) across Malaysia (2019-2025)" },
   "projection": {"type": "mercator"},
   "view": {
-    "fill": "#77BEF0",
+    "fill": "#99d1ff",
     "stroke": "transparent",
     "opacity": 0.6
   },
@@ -26,8 +26,8 @@
       "labelColor": "#333"
     }
   },
-  "width": 700,
-  "height": 300,
+  "width": "container",
+  "height": 350,
 
   "params": [
     {
@@ -44,19 +44,35 @@
   ],
 
   "layer": [
+          {
+    "mark": {
+      "type": "text",
+      "text": "Malaysia's food inflation remains high in 2025",
+      "fontSize": 14,
+      "fontWeight": "bold",
+      "color": "#333",
+      "align": "center",
+      "baseline": "middle",
+      "opacity": 0.85
+    },
+    "encoding": {
+      "longitude": {"value": 109.5},
+      "latitude": {"value": 4.5}
+    }
+  },
     {
       "data": {
         "url": "https://raw.githubusercontent.com/x-xinyue/FIT3179-Homework-Week-9/main/js/output.json",
         "format": {"type": "topojson", "feature": "my"}
       },
-      "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white"}
+      "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "#ffffff", "opacity": 1, "strokeWidth": 1.5}
     },
     {
       "data": {
         "url": "https://raw.githubusercontent.com/x-xinyue/FIT3179-Homework-Week-9/main/js/output.json",
         "format": {"type": "topojson", "feature": "ne_110m_graticules_1"}
       },
-      "mark": {"type": "geoshape", "stroke": "white", "strokeOpacity": 0.3, "fill": null}
+      "mark": {"type": "geoshape", "stroke": "white", "strokeOpacity": 0.3, "fill": null, "opacity": 0.85}
     },
     {
       "data": {
@@ -95,7 +111,7 @@
           "as": "geo"
         }
       ],
-      "mark": {"type": "geoshape"},
+      "mark": {"type": "geoshape", "opacity": 0.85, "stroke": "#ffffff", "strokeWidth": 0.5},
       "encoding": {
         "shape": {"field": "geo", "type": "geojson"},
         "color": {
@@ -105,12 +121,12 @@
           "scale": {
             "type": "threshold",
             "domain": [0, 0.25, 0.5, 0.75, 1],
-            "range": ["#FEF3E2", "#FFDDAE", "#FFCB61", "#FF894F", "#EA5B6F"]
+            "range": ["#ffd380","#ffa600","#ff8531","#f75454","#cc0000"]
           },
           "legend": {
-            "labelFont": "Arial",
-            "labelFontSize": 16,
-            "labelFontWeight": "bold",
+          "titleFontSize": 13,
+            "titleColor": "#333",
+            "labelFontSize": 13,
             "labelColor": "#333",
             "orient": "right"
           }
@@ -126,5 +142,6 @@
         ]
       }
     }
+
   ]
 }
