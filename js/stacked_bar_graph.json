@@ -1,0 +1,127 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Stacked bar chart showing top 5 inflation-contributing categories by year (2023–2025).",
+  "data": {
+    "url": "https://raw.githubusercontent.com/x-xinyue/FIT3179-DV2/refs/heads/main/data/merged_inflation.csv"
+  },
+  "width": "container",
+  "height": 400,
+  "title": {
+    "text": "Top 5 YoY Inflation (%) Contributing Categories in Malaysia (2023-2025)",
+    "font": "Arial",
+    "fontSize": 16,
+    "fontWeight": "bold",
+    "color": "#333"
+  },
+  "params": [
+    {
+      "name": "selected_state",
+      "value": "Overall",
+      "bind": {
+        "input": "select",
+        "options": [
+          "Overall", "Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan",
+          "Pahang", "Perak", "Perlis", "Pulau Pinang", "Sabah", "Sarawak",
+          "Selangor", "Terengganu", "Kuala Lumpur", "Labuan", "Putrajaya"
+        ],
+        "name": "Select geography: ",
+        "labelColor": "#333"
+      }
+    }
+  ],
+
+  "transform": [
+    {"filter": "datum.yoy_inflation != null"},
+    {"filter": "datum.desc_en != 'All items'"},
+    {"calculate": "toDate(datum.date)", "as": "Date"},
+    {"calculate": "year(datum.Date)", "as": "Year"},
+    {"filter": "datum.Year >= 2023 && datum.Year <= 2025"},
+    {"filter": "datum.state == selected_state"},
+    {
+      "aggregate": [
+        {"op": "mean", "field": "yoy_inflation", "as": "avg_inflation"}
+      ],
+      "groupby": ["desc_en", "Year"]
+    },
+    {
+      "window": [{"op": "rank", "as": "rank"}],
+      "sort": [{"field": "avg_inflation", "order": "descending"}],
+      "groupby": ["Year"]
+    },
+    {"filter": "datum.rank <= 5"}
+  ],
+
+  "mark": {"type": "bar", "opacity": 0.85},
+
+  "encoding": {
+    "x": {
+      "field": "Year",
+      "type": "ordinal",
+      "title": null,
+      "axis": {
+        "labelFontWeight": "bold",
+        "labelFontSize": 12,
+        "labelAngle": 0,
+        "ticks": false,
+        "labelColor": "#333"
+      }
+    },
+    "y": {
+      "aggregate": "sum",
+      "field": "avg_inflation",
+      "type": "quantitative",
+      "title": null,
+      "axis": {
+        "labelFontWeight": "bold",
+        "labelFontSize": 12,
+        "labelColor": "#333",
+        "titleColor": "#333",
+        "ticks": false,
+        "domain": false
+      }
+    },
+    "color": {
+      "field": "desc_en",
+      "type": "nominal",
+      "title": "Category",
+      "scale": {
+        "range": [
+          "#58508d","#8a508f","#bc5090",
+          "#de5a79","#f75454","#ff8531","#ffd380",
+          "#b1682c"
+        ]
+      },
+      "legend": {
+        "orient": "bottom",
+        "direction": "vertical",
+        "columnPadding": 60,
+        "title": null,
+        "labelFontSize": 13,
+        "labelColor": "#333",
+        "columns": 2,
+        "symbolSize": 100,
+        "symbolType": "circle"
+      }
+    },
+    "tooltip": [
+      {"field": "desc_en", "type": "nominal", "title": "Category"},
+      {"field": "Year", "type": "ordinal", "title": "Year"},
+      {"field": "avg_inflation", "type": "quantitative", "title": "Avg YoY Inflation (%)", "format": ".2f"}
+    ]
+  },
+
+  "config": {
+    "view": {"stroke": null},
+    "axis": {
+      "labelFontSize": 13,
+      "titleFontSize": 13,
+      "labelPadding": 15,
+      "labelColor": "#333",
+      "titleColor": "#333"
+    },
+    "legend": {
+      "labelColor": "#333",
+      "titleColor": "#333"
+    }
+  }
+}

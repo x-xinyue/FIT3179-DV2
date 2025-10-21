@@ -1,19 +1,27 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Streamgraph of inflation categories over time with interactive state filter (2019–2023).",
+  "description": "Streamgraph of inflation categories over time with interactive state filter (2019–2025).",
   "data": {
-    "url": "https://raw.githubusercontent.com/x-xinyue/FIT3179-DV2/refs/heads/main/data/inflation_division.csv"
+    "url": "https://raw.githubusercontent.com/x-xinyue/FIT3179-DV2/refs/heads/main/data/merged_inflation.csv"
   },
-  "width": 500,
-  "height": 400,
+  "width": "container",
+  "height": 500,
+  "title": {
+    "text": "Malaysia’s Average Year on Year (YoY) Inflation (%) by Category (2019-Aug 2025)",
+    "font": "Arial",
+    "fontSize": 16,
+    "fontWeight": "bold",
+    "color": "#333"
+  },
 
   "params": [
     {
       "name": "selected_state",
-      "value": "Johor",
+      "value": "Overall",
       "bind": {
         "input": "select",
         "options": [
+          "Overall",
           "Johor",
           "Kedah",
           "Kelantan",
@@ -36,19 +44,20 @@
     }
   ],
 
-    "transform": [
+  "transform": [
     {"filter": "datum.yoy_inflation != null"},
     {"calculate": "toDate(datum.date)", "as": "Date"},
-    {"calculate": "year(datum.Date)", "as": "Year"},
-{"filter": "datum.Year >= 2019 && datum.Year <= 2025"},
+    {"filter": "datum.desc_en != 'All items'"},
+    {"calculate": "toNumber(year(datum.Date))", "as": "Year"},
+    {"filter": "datum.Year >= 2019 && datum.Year <= 2025"},
     {"filter": "datum.state == selected_state"},
     {
-        "aggregate": [
+      "aggregate": [
         {"op": "mean", "field": "yoy_inflation", "as": "avg_inflation"}
-        ],
-        "groupby": ["desc_en", "state", "Year"]
+      ],
+      "groupby": ["desc_en", "state", "Date"]
     }
-    ],
+  ],
 
   "mark": {
     "type": "area",
@@ -58,36 +67,98 @@
 
   "encoding": {
     "x": {
-  "field": "Year",
-  "type": "ordinal",
-  "title": "Year",
-  "axis": {
-    "labelAngle": 0,
-    "labelFontSize": 12
-  }
-},
+      "field": "Date",
+      "type": "temporal",
+      "timeUnit": "yearmonth",
+      "title": null,
+      "scale": {"domain": [{"year": 2019, "month": 1}, {"year": 2025, "month": 8}]},
+      "axis": {
+        "format": "%b %Y",
+        "labelAngle": 0,
+        "labelFontSize": 11,
+        "labelFontWeight": "bold",
+        "labelColor": "#333",
+        "titleColor": "#333",
+        "ticks": false,
+        "domain": false,
+        "grid": true,
+        "labelFlush": false
+      }
+    },
     "y": {
       "field": "avg_inflation",
       "type": "quantitative",
       "stack": "center",
-      "title": "Average YoY Inflation (%)"
+      "title": null,
+      "axis": {
+        "ticks": false,
+        "domain": false,
+        "labelFontSize": 12,
+        "labelFontWeight": "bold",
+        "labelColor": "#333",
+        "titleColor": "#333"
+      }
     },
     "color": {
       "field": "desc_en",
       "type": "nominal",
-      "title": "Category",
-      "scale": {"scheme": "category20"}
+      "title": null,
+      "titleColor": "#333",
+      "scale": {
+        "range": [
+          "#003f5c",
+          "#2c4875",
+          "#58508d",
+          "#8a508f",
+          "#bc5090",
+          "#de5a79",
+          "#f75454",
+          "#ff8531",
+          "#ffa600",
+          "#ffd380",
+          "#f09f5e",
+          "#b1682c",
+          "#76451d"
+        ]
+      }
     },
     "tooltip": [
       {"field": "desc_en", "type": "nominal", "title": "Category"},
-      {"field": "Year", "type": "temporal", "title": "Year"},
-      {"field": "avg_inflation", "type": "quantitative", "title": "Average YoY Inflation (%)", "format": ".2f"}
+      {"field": "Date", "type": "temporal", "timeUnit": "yearmonth", "title": "Year Month"},
+      {
+        "field": "avg_inflation",
+        "type": "quantitative",
+        "title": "Average YoY Inflation (%)",
+        "format": ".2f"
+      }
     ]
   },
 
   "config": {
-    "view": {"stroke": null},
-    "axis": {"labelFontSize": 12, "titleFontSize": 13},
-    "legend": {"orient": "bottom", "title": null, "labelFontSize": 11}
+    "view": {"stroke": null, "padding": {"bottom": 40}},
+    "axis": {
+      "labelFontSize": 13,
+      "titleFontSize": 13,
+      "labelPadding": 15,
+      "labelColor": "#333",
+      "titleColor": "#333"
+    },
+    "legend": {
+      "orient": "bottom",
+      "direction": "vertical",
+      "columnPadding": 60,
+      "title": null,
+      "titleFontSize": 15,
+      "titleColor": "#333",
+      "labelFontSize": 13,
+      "labelColor": "#333",
+      "columns": 2,
+      "symbolSize": 100,
+      "symbolType": "circle"
+    },
+    "style": {
+      "guide-label": {"fill": "#333"},
+      "guide-title": {"fill": "#333"}
+    }
   }
 }
